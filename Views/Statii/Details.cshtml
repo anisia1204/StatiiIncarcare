@@ -1,0 +1,23 @@
+﻿@model StatiiIncarcare.Models.DB.Statie
+
+@{
+    ViewData["Title"] = "Detalii Statie";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+<div class="card-body">
+    <h5 class="card-title">Statie</h5>
+    <p class="card-text">@Html.DisplayNameFor(model => model.Nume)
+@Html.DisplayFor(m => m.Nume)
+<br>
+@Html.DisplayNameFor(model => model.Oras)
+@Html.DisplayFor(m => m.Oras)
+<br>
+@Html.DisplayNameFor(model => model.Adresa)
+@Html.DisplayFor(m => m.Adresa)</p>
+    <a asp-action="GetStatii" class="btn btn-primary">Inapoi La Statii</a>
+  </div>
+

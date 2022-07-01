@@ -1,0 +1,52 @@
+﻿@model IEnumerable<StatiiIncarcare.Models.DB.Statie>
+
+@{
+    ViewData["Title"] = "Statii Incarcare";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+
+ <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Oras)
+            </th>
+
+        </tr>
+     </thead>
+     <tbody>
+        @foreach (var item in Model) {
+            <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Oras)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdStatie">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdStatie">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdStatie">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<th>
+    <a asp-action="CreateStatie" class="btn btn-sm btn-success">
+         <i class="fa-solid fa-plus"></i> Adauga O Noua Statie
+    </a>
+</th>
