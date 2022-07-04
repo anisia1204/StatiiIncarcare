@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StatiiIncarcare.Models.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace StatiiIncarcare.Controllers
 {
@@ -28,7 +29,7 @@ namespace StatiiIncarcare.Controllers
             return View(new Statie());
         }
 
-        // POST: Transaction/AddOrEdit
+        // POST: StatiiIncarcare/CreateStatie
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -46,9 +47,27 @@ namespace StatiiIncarcare.Controllers
 
         public IActionResult Details(int id)
         {
-            var statie = _statiiIncarcareContext.Staties.FirstOrDefault(s => s.IdStatie == id);
+            var statie = _statiiIncarcareContext.Staties.
+                Include(s => s.Prizas).
+                ThenInclude(x => x.IdTipNavigation).
+                FirstOrDefault(s => s.IdStatie == id);
+
+            if (statie == null)
+            {
+                return NotFound();
+            }
             return View(statie);
         }
 
+        // POST: StatiiIncarcare/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var statie = await _statiiIncarcareContext.Staties.FindAsync(id);
+            _statiiIncarcareContext.Staties.Remove(statie);
+            await _statiiIncarcareContext.SaveChangesAsync();
+            return RedirectToAction(nameof(GetStatii));
+        }
     }
 }

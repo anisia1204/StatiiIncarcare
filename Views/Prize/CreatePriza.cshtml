@@ -1,0 +1,32 @@
+﻿@model StatiiIncarcare.Models.ViewModels.PrizeViewModel
+
+@{
+    ViewData["Title"] = "Priza noua";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+ 
+<form asp-controller="Prize" asp-action="CreatePriza" method ="post" class ="mt-3">
+    <select class="custom-select" asp-for="IdTipPrize">
+        <option>Open this select menu</option>
+        @foreach (var item in Model.TipPrize)
+        {
+            <option>
+                <option value = "@item.IdTip">@item.NumePriza</option>
+            </option>
+        }
+    </select>
+    <input readonly asp-for = "IdStatie" hidden >
+    <p><button type="submit">Submit</button></p>
+</form>
+
+
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

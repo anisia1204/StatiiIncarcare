@@ -8,6 +8,9 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+
  <table class="table">
     <thead>
         <tr>
@@ -36,9 +39,17 @@
                 @Html.DisplayFor(modelItem => item.Oras)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdStatie">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdStatie">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdStatie">Delete</a>
+                <form asp-action="Edit" asp-route-id="@item.IdStatie">
+                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                </form> 
+                <form asp-action="Details" asp-route-id="@item.IdStatie">
+                    <button type="submit" class="btn btn-outline-info">Details</button></form> 
+                <form asp-action="Delete" asp-route-id="@item.IdStatie">
+                    <button type="submit" class="btn btn-outline-danger"
+                                        onclick="return confirm('Are you sure to delete this record?')">
+                                        <i class="far fa-trash-alt"></i>
+                                    Delete</button>
+                </form>
             </td>
         </tr>
 }

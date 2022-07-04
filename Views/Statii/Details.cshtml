@@ -1,4 +1,5 @@
-﻿@model StatiiIncarcare.Models.DB.Statie
+﻿@using StatiiIncarcare.Models.DB
+@model StatiiIncarcare.Models.DB.Statie
 
 @{
     ViewData["Title"] = "Detalii Statie";
@@ -10,14 +11,24 @@
 
 <div class="card-body">
     <h5 class="card-title">Statie</h5>
-    <p class="card-text">@Html.DisplayNameFor(model => model.Nume)
-@Html.DisplayFor(m => m.Nume)
-<br>
-@Html.DisplayNameFor(model => model.Oras)
-@Html.DisplayFor(m => m.Oras)
-<br>
-@Html.DisplayNameFor(model => model.Adresa)
-@Html.DisplayFor(m => m.Adresa)</p>
-    <a asp-action="GetStatii" class="btn btn-primary">Inapoi La Statii</a>
-  </div>
+    <p class="card-text">   
+        @Html.DisplayNameFor(model => model.Nume)
+        @Html.DisplayFor(m => m.Nume)
+    <br>
+        @Html.DisplayNameFor(model => model.Oras)
+        @Html.DisplayFor(m => m.Oras)
+    <br>
+        @Html.DisplayNameFor(model => model.Adresa)
+        @Html.DisplayFor(m => m.Adresa)
+    </p>
+</div>
 
+@await Html.PartialAsync(partialViewName: "~/Views/Statii/ListOfPrize.cshtml", model: Model.Prizas)
+
+<th>
+    <a asp-action="CreatePriza" asp-controller = "Prize" asp-route-id = "@Model.IdStatie" class="btn btn-sm btn-success">
+         <i class="fa-solid fa-plus"></i> Adauga O Noua Priza
+    </a>
+</th>
+
+<a asp-action="GetStatii" class="btn btn-primary">Inapoi La Statii</a>
