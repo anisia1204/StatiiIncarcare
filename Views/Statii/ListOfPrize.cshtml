@@ -18,7 +18,8 @@
                     <tr>  
                         <td>@item.IdPriza</td>
                         <td>@item.IdTipNavigation.NumePriza</td>  
-                        <td><a> Booking </a></td>
+                        <td><a asp-action="BookNow" asp-controller = "Booking" asp-route-id = "@item.IdPriza" class="btn btn-sm btn-success"/>
+                            <i class="fa-solid fa-plus"></i> Book Now</td>
                     </tr>  
                 }  
             </tbody>  

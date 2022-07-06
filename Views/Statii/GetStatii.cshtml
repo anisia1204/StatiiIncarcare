@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<StatiiIncarcare.Models.DB.Statie>
 
+
 @{
     ViewData["Title"] = "Statii Incarcare";
 }
@@ -8,24 +9,34 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
 
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")  
+        <input type="submit" value="Search" /></p>
+}
+
 <div class="row">
     <div class="col-md-8 offset-md-2">
 
  <table class="table">
-    <thead>
+      <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nume)
+                @*<a asp-action="GetStatii" asp-controller="Statii">Nume</a>*@
+                @Html.ActionLink("Nume", "GetStatii", "Statii", new { sortOrder = ViewBag.NumeSortParm , searchString = ViewBag.SearchString})
+             @*   @Html.DisplayNameFor(model => model.Nume)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Adresa)
+                @Html.ActionLink("Adresa", "GetStatii", new { sortOrder = ViewBag.AdresaSortParm})
+              @*  @Html.DisplayNameFor(model => model.Adresa)*@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Oras)
+                Oras @*@Html.DisplayNameFor(model => model.S)*@
             </th>
 
         </tr>
-     </thead>
+      </thead>
      <tbody>
         @foreach (var item in Model) {
             <tr>
@@ -55,6 +66,10 @@
 }
     </tbody>
 </table>
+
+</div>
+</div>
+
 
 <th>
     <a asp-action="CreateStatie" class="btn btn-sm btn-success">

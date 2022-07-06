@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StatiiIncarcare.Models.DB;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
 
 namespace StatiiIncarcare.Controllers
 {
@@ -11,15 +12,46 @@ namespace StatiiIncarcare.Controllers
         {
             _statiiIncarcareContext = statiiIncarcareContext;
         }
-        public IActionResult Index()
+        public IActionResult GetStatii(string sortOrder, string searchString)
         {
-            return View();
+            ViewBag.NumeSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.AdresaSortParm = sortOrder == "Adresa" ? "adress_desc" : "Adresa";
+            ViewBag.SearchString = searchString;
+
+            var statii = from s in _statiiIncarcareContext.Staties
+                         select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                statii = statii.Where(s => s.Nume.Contains(searchString)
+                                       || s.Adresa.Contains(searchString)
+                                       || s.Oras.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    statii = statii.OrderByDescending(s => s.Nume);
+                    break;
+                case "Adresa":
+                    statii = statii.OrderBy(s => s.Adresa);
+                    break;
+                case "adress_desc":
+                    statii = statii.OrderByDescending(s => s.Adresa);
+                    break;
+                default:
+                    statii = statii.OrderBy(s => s.Nume);
+                    break;
+            }
+
+            return View(statii.ToList());
         }
 
         //GET
         [HttpGet]
         public IActionResult GetStatii()
         {
+            ViewBag.NumeSortParm = "name_desc";
+            ViewBag.AdresaSortParm = "adress_desc";
             return View(_statiiIncarcareContext.Staties);
         }
 

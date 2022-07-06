@@ -1,0 +1,52 @@
+﻿@model StatiiIncarcare.Models.ViewModels.BookingViewModel
+
+@{
+    ViewData["Title"] = "Rezervare Noua";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+</div>
+   
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <form asp-action="BookNow" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.IdPriza" />
+            <input type="hidden" asp-for="@Model.IdStatie" />
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NrMasina" class="control-label"></label>
+                <input asp-for="NrMasina" class="form-control" />
+                <span asp-validation-for="NrMasina" class="text-danger"></span>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary w-100" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <a asp-action="Details" asp-route-id = "@Model.IdStatie"   asp-controller = "Statii" class="btn btn-secondary  w-100">Inapoi La Statie</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
