@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using StatiiIncarcare.Models;
+using StatiiIncarcare.Models.DB;
+using StatiiIncarcare.Models.ViewModels;
 using System.Diagnostics;
 
 namespace StatiiIncarcare.Controllers
@@ -7,19 +11,36 @@ namespace StatiiIncarcare.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly StatiiIncarcareContext _statiiIncarcareContext;
+        public HomeController(ILogger<HomeController> logger, StatiiIncarcareContext statiiIncarcareContext)
         {
             _logger = logger;
+            _statiiIncarcareContext = statiiIncarcareContext;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
+            List<Chart> charts = new List<Chart>();
 
-        public IActionResult Privacy()
-        {
+            foreach (var item in _statiiIncarcareContext.Staties.Include(s => s.Prizas).ThenInclude(x => x.Rezervares))
+            {
+                var chart = new Chart();
+                chart.Nume = item.Nume;
+                var rezervari = 0;
+
+                var PrizeleStatiei = item.Prizas.Where(x => x.IdStatie == item.IdStatie).ToList();
+
+                foreach (var prizas in PrizeleStatiei)
+                {
+                    var nrRezervariPerPriza = prizas.Rezervares.Count();
+                    rezervari = rezervari + nrRezervariPerPriza;
+                }
+                chart.NumarRezervari = rezervari;
+                charts.Add(chart);
+            }
+
+            ViewBag.Chart = JsonConvert.SerializeObject(charts);
+
             return View();
         }
 

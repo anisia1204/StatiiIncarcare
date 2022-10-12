@@ -12,6 +12,7 @@ namespace StatiiIncarcare.Controllers
         {
             _statiiIncarcareContext = statiiIncarcareContext;
         }
+
         public IActionResult GetStatii(string sortOrder, string searchString)
         {
             ViewBag.NumeSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -45,6 +46,34 @@ namespace StatiiIncarcare.Controllers
 
             return View(statii.ToList());
         }
+        public IActionResult GetStatiiFiltrate(string sortOrder)
+        {
+            ViewBag.NumeSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.AdresaSortParm = sortOrder == "Adresa" ? "adress_desc" : "Adresa";
+            //ViewBag.SearchString = searchString;
+
+            var statii = from s in _statiiIncarcareContext.Staties
+                         select s;
+          
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    statii = statii.OrderByDescending(s => s.Nume);
+                    break;
+                case "Adresa":
+                    statii = statii.OrderBy(s => s.Adresa);
+                    break;
+                case "adress_desc":
+                    statii = statii.OrderByDescending(s => s.Adresa);
+                    break;
+                default:
+                    statii = statii.OrderBy(s => s.Nume);
+                    break;
+            }
+
+            return View("GetStatii", statii.ToList());
+        }
 
         //GET
         [HttpGet]
@@ -76,7 +105,6 @@ namespace StatiiIncarcare.Controllers
             }
             return View(statie);
         }
-
         public IActionResult Details(int id)
         {
             var statie = _statiiIncarcareContext.Staties.

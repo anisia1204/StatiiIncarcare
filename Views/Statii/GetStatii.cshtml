@@ -24,11 +24,16 @@
         <tr>
             <th>
                 @*<a asp-action="GetStatii" asp-controller="Statii">Nume</a>*@
-                @Html.ActionLink("Nume", "GetStatii", "Statii", new { sortOrder = ViewBag.NumeSortParm , searchString = ViewBag.SearchString})
-             @*   @Html.DisplayNameFor(model => model.Nume)*@
+                @*@Html.ActionLink("Nume", "GetStatii", "Statii", new { sortOrder = ViewBag.NumeSortParm , searchString = ViewBag.SearchString})*@
+             @*   *@
+             <a asp-action="GetStatiiFiltrate" asp-controller = "Statii" asp-route-sortOrder= "@ViewBag.NumeSortParm" >
+                 @Html.DisplayNameFor(model => model.Nume)
+             </a>
             </th>
             <th>
-                @Html.ActionLink("Adresa", "GetStatii", new { sortOrder = ViewBag.AdresaSortParm})
+               <a asp-action="GetStatiiFiltrate" asp-controller = "Statii" asp-route-sortOrder= "@ViewBag.AdresaSortParm" >
+                 @Html.DisplayNameFor(model => model.Adresa)
+                </a>
               @*  @Html.DisplayNameFor(model => model.Adresa)*@
             </th>
             <th>
@@ -51,8 +56,7 @@
             </td>
             <td>
                 <form asp-action="Edit" asp-route-id="@item.IdStatie">
-                    <button type="button" class="btn btn-outline-primary">Edit</button>
-                </form> 
+                    <button type="button" class="btn btn-outline-primary">Edit</button></form> 
                 <form asp-action="Details" asp-route-id="@item.IdStatie">
                     <button type="submit" class="btn btn-outline-info">Details</button></form> 
                 <form asp-action="Delete" asp-route-id="@item.IdStatie">
@@ -61,6 +65,7 @@
                                         <i class="far fa-trash-alt"></i>
                                     Delete</button>
                 </form>
+                <a class="btn btn-outline-dark" href= "https://www.google.com/maps/search/?api=1&query=@item.Oras+@item.Adresa" target = "_blank" >Show On Maps</a>
             </td>
         </tr>
 }
